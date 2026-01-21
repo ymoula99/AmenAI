@@ -178,12 +178,35 @@ export const apiClient = {
 
         onProgress?.(80);
 
-        // Generate BOM based on actual configuration
-        const bom = generateMockBOM(params.workstations, params.styleLevel);
-        const totals = calculateTotals(bom);
-        const meetingTables = params.meetingTablesPreference 
-          ? Math.max(1, Math.floor(params.workstations / 20))
-          : 0;
+        // Convertir la sélection en BOM réel
+        const bom: BOMItem[] = [];
+        const productGroups = new Map<string, { product: any; count: number }>();
+        
+        // Grouper les produits identiques
+        for (const item of selection.items) {
+          const key = item.id;
+          if (productGroups.has(key)) {
+            productGroups.get(key)!.count++;
+          } else {
+            productGroups.set(key, { product: item, count: 1 });
+          }
+        }
+        
+        // Créer le BOM à partir des produits réels
+        for (const [_, { product, count }] of productGroups) {
+          bom.push({
+            sku: product.id,
+            label: product.name,
+            qty: count,
+            unitPriceRange: { min: product.price, max: product.price },
+            type: product.type,
+          });
+        }
+        
+        const totals = {
+          buyRange: { min: selection.totalCost, max: selection.totalCost },
+          rentRange: { min: Math.round(selection.totalCost * 0.08), max: Math.round(selection.totalCost * 0.08) },
+        };
 
         onProgress?.(100);
 
@@ -198,10 +221,11 @@ export const apiClient = {
                 totals,
                 notes: [
                   'Visualisation générée par IA',
+                  `${selection.items.length} produits sélectionnés automatiquement`,
+                  `Budget utilisé: ${selection.totalCost.toLocaleString()} €`,
                   'Prix incluant la livraison standard',
                   'Installation estimée à 2-3 jours',
                   'Garantie 2 ans sur le mobilier',
-                  params.meetingTablesPreference ? `${meetingTables} espace(s) de réunion intégré(s)` : 'Configuration open space optimisée',
                 ],
               },
             },
