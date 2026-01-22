@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useProjectStore } from './store/projectStore';
 import { Layout } from './components/Layout';
 import { ProjectInfoStep } from './components/ProjectInfoStep';
+import { ProposalStep } from './components/ProposalStep';
 import { ResultStep } from './components/ResultStep';
 import Catalog from './components/Catalog';
 import { Sparkles } from 'lucide-react';
@@ -92,6 +93,7 @@ function App() {
   return (
     <Layout currentView={currentView} onNavigate={setCurrentView}>
       {currentStep === 'info' && <ProjectInfoStep />}
+      {currentStep === 'proposal' && <ProposalStep />}
       {currentStep === 'result' && <ResultStep />}
     </Layout>
   );

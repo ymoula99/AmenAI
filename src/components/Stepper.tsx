@@ -8,7 +8,8 @@ interface StepperProps {
 
 const steps: { id: Step; label: string; number: number }[] = [
   { id: 'info', label: 'Configure', number: 1 },
-  { id: 'result', label: 'Generate', number: 2 },
+  { id: 'proposal', label: 'Validate', number: 2 },
+  { id: 'result', label: 'Generate', number: 3 },
 ];
 
 export const Stepper = ({ currentStep }: StepperProps) => {

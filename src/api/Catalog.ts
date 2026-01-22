@@ -12,9 +12,15 @@ export class FurnitureCatalogAPI {
    * Récupérer tous les articles du catalogue avec filtres optionnels
    */
   static async getAll(filters?: FurnitureFilters): Promise<FurnitureItem[]> {
+    console.log('🔌 FurnitureCatalogAPI.getAll() - Début');
+    console.log('Filters:', filters);
+    
     if (!supabase) {
+      console.error('❌ Supabase client not initialized');
       throw new Error('Supabase client not initialized');
     }
+    
+    console.log('✅ Supabase client OK');
 
     let query = supabase
       .from('furniture_catalog')
@@ -23,28 +29,41 @@ export class FurnitureCatalogAPI {
 
     // Appliquer les filtres
     if (filters?.category) {
+      console.log('Filtre category:', filters.category);
       query = query.eq('category', filters.category);
     }
     if (filters?.is_available !== undefined) {
+      console.log('Filtre is_available:', filters.is_available);
       query = query.eq('is_available', filters.is_available);
     }
     if (filters?.min_price !== undefined) {
+      console.log('Filtre min_price:', filters.min_price);
       query = query.gte('price', filters.min_price);
     }
     if (filters?.max_price !== undefined) {
+      console.log('Filtre max_price:', filters.max_price);
       query = query.lte('price', filters.max_price);
     }
     if (filters?.brand) {
+      console.log('Filtre brand:', filters.brand);
       query = query.eq('brand', filters.brand);
     }
     if (filters?.color) {
+      console.log('Filtre color:', filters.color);
       query = query.eq('color', filters.color);
     }
 
+    console.log('🚀 Exécution de la requête Supabase...');
     const { data, error } = await query;
 
     if (error) {
+      console.error('❌ Erreur Supabase:', error);
       throw new Error(`Error fetching furniture catalog: ${error.message}`);
+    }
+
+    console.log('✅ Requête réussie, données reçues:', data?.length || 0, 'items');
+    if (data && data.length > 0) {
+      console.log('Premier item:', data[0]);
     }
 
     return data || [];

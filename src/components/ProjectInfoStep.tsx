@@ -9,7 +9,7 @@ import { getDefaultProjectName, correctImageOrientation } from '@/lib/utils';
 const projectSchema = z.object({
   name: z.string().min(1, 'Le nom est requis'),
   areaM2: z.number().min(30, 'Min 30 m²').max(5000, 'Max 5000 m²'),
-  workstations: z.number().min(1, 'Min 1 poste').max(400, 'Max 400 postes'),
+  workstations: z.number().min(1, 'Min 1 poste').max(50, 'Max 400 postes'),
   styleLevel: z.enum(['basic', 'standard', 'premium']),
   meetingTablesPreference: z.boolean(),
 });
@@ -94,8 +94,8 @@ export const ProjectInfoStep = () => {
     
     setPhoto(photoFile, photoPreview!);
     
-    // Skip mask step - go directly to result with Vision API
-    setStep('result');
+    // Go to proposal step to show furniture selection
+    setStep('proposal');
   };
 
   return (

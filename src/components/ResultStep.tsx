@@ -42,6 +42,7 @@ const createFullImageMask = async (imageFile: File): Promise<Blob> => {
 export const ResultStep = () => {
   const {
     currentProject,
+    furnitureProposal,
     renderResult,
     setRenderResult,
     resetProject,
@@ -64,6 +65,13 @@ export const ResultStep = () => {
       return;
     }
 
+    if (!furnitureProposal) {
+      setError('Proposition de mobilier manquante. Retournez à l\'étape précédente.');
+      return;
+    }
+
+    console.log('🚀 ResultStep - Début génération avec proposition pré-calculée:', furnitureProposal);
+
     setIsGenerating(true);
     setProgress(0);
     setError(null);
@@ -80,6 +88,8 @@ export const ResultStep = () => {
         maskBlob = await createFullImageMask(currentProject.photoFile);
       }
 
+      console.log('📞 Appel apiClient.renderProject avec proposition:', furnitureProposal);
+
       const result = await apiClient.renderProject(
         currentProject.id,
         currentProject.photoFile,
@@ -92,12 +102,15 @@ export const ResultStep = () => {
           styleLevel: currentProject.styleLevel,
           meetingTablesPreference: currentProject.meetingTablesPreference,
         },
+        furnitureProposal, // Pass pre-calculated proposal
         (prog) => setProgress(prog)
       );
 
+      console.log('✅ Résultat reçu:', result);
+
       setRenderResult(result);
     } catch (err: any) {
-      console.error('Render error:', err);
+      console.error('❌ Render error:', err);
       setError(err.message || 'Erreur lors de la génération');
       setIsGenerating(false);
     }

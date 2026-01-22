@@ -28,7 +28,7 @@ export const Layout = ({ children, showStepper = true, currentView = 'app', onNa
                 <Building2 className="w-6 h-6 text-white" strokeWidth={1.5} />
                 <div>
                   <h1 className="text-sm font-medium tracking-widest uppercase">
-                    Office
+                    Mes Bureaux
                   </h1>
                   {currentProject && (
                     <p className="text-[10px] text-gray-500 font-light tracking-wide uppercase">
@@ -87,7 +87,7 @@ export const Layout = ({ children, showStepper = true, currentView = 'app', onNa
                 className="flex items-center gap-2 px-4 py-2 text-[10px] font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-widest border border-gray-800 hover:border-gray-700"
               >
                 <Home className="w-3.5 h-3.5" strokeWidth={2} />
-                <span>New Project</span>
+                <span>Nouveau Projet</span>
               </button>
             )}
           </div>

@@ -70,28 +70,45 @@ export const useCatalogStore = create<CatalogStore>((set, get) => ({
   error: null,
 
   loadProducts: async () => {
+    console.log('📦 catalogStore.loadProducts() - Début');
     set({ isLoading: true, error: null });
     try {
+      console.log('🔍 Appel FurnitureCatalogAPI.getAll({ is_available: true })...');
       const furnitureItems = await FurnitureCatalogAPI.getAll({ is_available: true });
-      const products: CatalogProduct[] = furnitureItems.map(item => ({
-        id: item.id,
-        name: item.name,
-        description: item.description || '',
-        type: REVERSE_TYPE_MAPPING[item.category] || 'other',
-        price: item.price,
-        imageUrl: item.image_url,
-        createdAt: new Date(item.created_at),
-        width_cm: item.width_cm,
-        depth_cm: item.depth_cm,
-        height_cm: item.height_cm,
-        brand: item.brand,
-        material: item.material,
-        color: item.color,
-        stock_quantity: item.stock_quantity,
-      }));
+      console.log('✅ Réponse Supabase:', furnitureItems.length, 'items');
+      
+      if (furnitureItems.length > 0) {
+        console.log('Exemple premier item:', furnitureItems[0]);
+      }
+      
+      const products: CatalogProduct[] = furnitureItems.map(item => {
+        // Construire l'URL Supabase Storage si storage_image_path existe
+        const imageUrl = item.storage_image_path
+          ? `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/furniture-images/${item.storage_image_path}`
+          : item.image_url;
+        
+        return {
+          id: item.id,
+          name: item.name,
+          description: item.description || '',
+          type: REVERSE_TYPE_MAPPING[item.category] || 'other',
+          price: item.price,
+          imageUrl: imageUrl,
+          createdAt: new Date(item.created_at),
+          width_cm: item.width_cm,
+          depth_cm: item.depth_cm,
+          height_cm: item.height_cm,
+          brand: item.brand,
+          material: item.material,
+          color: item.color,
+          stock_quantity: item.stock_quantity,
+        };
+      });
+      
+      console.log('✅ Produits mappés:', products.length);
       set({ products, isLoading: false });
     } catch (error) {
-      console.error('Error loading products:', error);
+      console.error('❌ Error loading products:', error);
       set({ error: 'Erreur lors du chargement des produits', isLoading: false });
     }
   },

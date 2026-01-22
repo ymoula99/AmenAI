@@ -1,0 +1,23 @@
+# CODEOWNERS — AmenAI
+# Responsables par dossier/fichier pour review automatique des PRs.
+
+# Frontend React
+/src/ @frontend-team
+
+# Scripts & outils (Node/TS)
+/tools/ @devops-team
+
+# Migrations Supabase
+/supabase-migrations/ @db-team
+/supabase/ @db-team
+
+# Documentation
+/docs/ @docs-team
+
+# CI/CD
+/.github/ @devops-team
+
+# Config racine (package.json, tsconfig, vite, tailwind)
+/*.json @frontend-team
+/*.js @frontend-team
+/*.ts @frontend-team

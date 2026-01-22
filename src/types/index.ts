@@ -51,4 +51,25 @@ export interface RenderResponse {
   outputs: RenderOutput[];
 }
 
-export type Step = 'info' | 'result';
+// Furniture selection types
+export interface FurnitureSelection {
+  items: Array<{
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    imageUrl: string;
+    type: string;
+    dimensions: string;
+  }>;
+  totalCost: number;
+  breakdown: {
+    desks: number;
+    chairs: number;
+    storage: number;
+    meetingTables: number;
+    other: number;
+  };
+}
+
+export type Step = 'info' | 'proposal' | 'result';

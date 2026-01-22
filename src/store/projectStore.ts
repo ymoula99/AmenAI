@@ -1,10 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Project, Step, RenderResponse } from '@/types';
+import { Project, Step, RenderResponse, FurnitureSelection } from '@/types';
 
 interface ProjectStore {
   currentProject: Project | null;
   currentStep: Step;
+  furnitureProposal: FurnitureSelection | null;
   renderResult: RenderResponse | null;
   isGenerating: boolean;
   
@@ -14,6 +15,7 @@ interface ProjectStore {
   setStep: (step: Step) => void;
   setPhoto: (file: File, url: string) => void;
   setMask: (maskDataUrl: string) => void;
+  setFurnitureProposal: (proposal: FurnitureSelection) => void;
   setRenderResult: (result: RenderResponse) => void;
   setIsGenerating: (isGenerating: boolean) => void;
   resetProject: () => void;
@@ -24,6 +26,7 @@ export const useProjectStore = create<ProjectStore>()(
     (set) => ({
       currentProject: null,
       currentStep: 'info',
+      furnitureProposal: null,
       renderResult: null,
       isGenerating: false,
 
@@ -64,6 +67,10 @@ export const useProjectStore = create<ProjectStore>()(
         }));
       },
 
+      setFurnitureProposal: (proposal) => {
+        set({ furnitureProposal: proposal });
+      },
+
       setRenderResult: (result) => {
         set({ renderResult: result, isGenerating: false });
       },
@@ -76,6 +83,7 @@ export const useProjectStore = create<ProjectStore>()(
         set({
           currentProject: null,
           currentStep: 'info',
+          furnitureProposal: null,
           renderResult: null,
           isGenerating: false,
         });

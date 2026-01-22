@@ -1,10 +1,10 @@
 /**
  * Script de test des prompts (TypeScript)
- * Usage: npx tsx scripts/test-prompts.ts
+ * Usage: npx tsx tools/scripts/test-prompts.ts
  */
 
-import { buildPrompt, buildEditPrompt } from '../lib/openai/promptBuilder';
-import type { ConfigurationItem } from '../lib/types';
+import { buildPrompt, buildEditPrompt } from '../openai/promptBuilder';
+import type { ConfigurationItem } from '../../src/types';
 
 console.log('🧪 Test des prompts OpenAI\n');
 console.log('═'.repeat(80));

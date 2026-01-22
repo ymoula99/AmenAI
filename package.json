@@ -6,15 +6,22 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:client": "vite build",
+    "build:tools": "tsc -p tsconfig.node.json --outDir dist/tools",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "ci": "npm run lint && npm run build:client && npm run test",
+    "workflow": "tsx tools/scripts/test-workflow.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.3",
-    "@supabase/supabase-js": "^2.90.1",
+    "@supabase/supabase-js": "^2.91.0",
     "clsx": "^2.0.0",
-    "dotenv": "^17.2.3",
     "lucide-react": "^0.298.0",
+    "openai": "^6.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",
@@ -22,19 +29,31 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.0",
+    "@testing-library/react": "^14.1.0",
+    "@types/node": "^25.0.10",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.16",
+    "canvas": "^3.2.1",
+    "dotenv": "^17.2.3",
     "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^8.0.3",
+    "jsdom": "^27.4.0",
+    "lint-staged": "^15.2.0",
     "postcss": "^8.4.32",
+    "prettier": "^3.1.0",
+    "sharp": "^0.32.4",
     "tailwindcss": "^3.3.6",
     "tsx": "^4.21.0",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vitest": "^1.1.0"
   }
 }

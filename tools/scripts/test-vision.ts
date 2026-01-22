@@ -3,6 +3,7 @@
 /**
  * Script de test : Vision API + Catalogue
  * Teste la nouvelle approche avec GPT-4 Vision
+ * Usage: npx tsx tools/scripts/test-vision.ts
  */
 
 import fs from 'fs';
@@ -12,7 +13,7 @@ const OPENAI_API_KEY = process.env.VITE_OPENAI_API_KEY || process.env.OPENAI_API
 
 if (!OPENAI_API_KEY) {
   console.error('❌ OPENAI_API_KEY manquante');
-  console.log('Usage: OPENAI_API_KEY=sk-... tsx scripts/test-vision.ts');
+  console.log('Usage: OPENAI_API_KEY=sk-... npx tsx tools/scripts/test-vision.ts');
   process.exit(1);
 }
 

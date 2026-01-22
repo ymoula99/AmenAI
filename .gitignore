@@ -14,6 +14,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.next
 
 # Editor
 .vscode/*
@@ -27,7 +28,7 @@ dist-ssr
 *.sw?
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -40,3 +41,7 @@ coverage
 
 # Misc
 .cache
+
+# Generated artifacts
+docs/examples/*.png
+docs/examples/*.jpg

@@ -2,10 +2,10 @@
 
 /**
  * Script de test des prompts
- * Usage: node test-prompts.js
+ * Usage: node tools/scripts/test-prompts.js
  */
 
-const promptBuilder = require('../lib/openai/promptBuilder');
+const promptBuilder = require('../openai/promptBuilder');
 
 console.log('🧪 Test des prompts OpenAI\n');
 console.log('═'.repeat(80));

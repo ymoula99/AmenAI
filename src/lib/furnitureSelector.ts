@@ -1,16 +1,5 @@
 import { CatalogProduct } from './catalogStore';
-
-export interface FurnitureSelection {
-  items: CatalogProduct[];
-  totalCost: number;
-  breakdown: {
-    desks: number;
-    chairs: number;
-    storage: number;
-    meetingTables: number;
-    other: number;
-  };
-}
+import { FurnitureSelection } from '@/types';
 
 interface SelectionParams {
   budget: number;
@@ -26,6 +15,10 @@ export function selectFurnitureFromCatalog(
   catalog: CatalogProduct[],
   params: SelectionParams
 ): FurnitureSelection {
+  console.log('\n🎯 selectFurnitureFromCatalog - Début');
+  console.log('Catalogue reçu:', catalog.length, 'produits');
+  console.log('Params:', params);
+  
   const { budget, workstations, styleLevel, meetingTablesPreference = true } = params;
   
   const selectedItems: CatalogProduct[] = [];
@@ -41,6 +34,7 @@ export function selectFurnitureFromCatalog(
 
   // Filtrer les produits disponibles
   const availableProducts = catalog.filter(p => p.price > 0);
+  console.log('Produits avec prix > 0:', availableProducts.length);
   
   // Grouper par type
   const desks = availableProducts.filter(p => p.type === 'desk').sort((a, b) => a.price - b.price);
@@ -50,6 +44,13 @@ export function selectFurnitureFromCatalog(
   const other = availableProducts.filter(p => 
     !['desk', 'chair', 'storage', 'meeting-table'].includes(p.type)
   ).sort((a, b) => a.price - b.price);
+  
+  console.log('Produits par type:');
+  console.log('  Bureaux:', desks.length);
+  console.log('  Chaises:', chairs.length);
+  console.log('  Rangements:', storage.length);
+  console.log('  Tables de réunion:', meetingTables.length);
+  console.log('  Autres:', other.length);
 
   // Budget par poste de travail
   const budgetPerWorkstation = budget / workstations;
@@ -133,11 +134,19 @@ export function selectFurnitureFromCatalog(
     }
   }
 
-  return {
+  const result = {
     items: selectedItems,
     totalCost,
     breakdown,
   };
+  
+  console.log('\n✅ Sélection terminée:');
+  console.log('  Total items:', selectedItems.length);
+  console.log('  Coût total:', totalCost, '€');
+  console.log('  Budget restant:', budget - totalCost, '€');
+  console.log('  Breakdown:', breakdown);
+  
+  return result;
 }
 
 /**
